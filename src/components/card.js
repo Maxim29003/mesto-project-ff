@@ -12,7 +12,9 @@ function createCard(
     .cloneNode(true);
 
   const cardDeleteButton = card.querySelector(".card__delete-button");
-  cardDeleteButton.addEventListener("click", handleCardDelete);
+  cardDeleteButton.addEventListener("click", () => {
+    handleCardDelete(card);
+  });
 
   const cardLikeButton = card.querySelector(".card__like-button");
   cardLikeButton.addEventListener("click", handleCardLike);
@@ -21,18 +23,18 @@ function createCard(
   cardImage.src = link;
   cardImage.alt = name;
 
-  cardImage.addEventListener("click", handleImagePopup);
+  const cardName = card.querySelector(".card__title");
+  cardName.textContent = name;
 
-  card.querySelector(".card__title").textContent = name;
+  cardImage.addEventListener("click", () => {
+    handleImagePopup(cardImage, cardName.textContent);
+  });
 
   return card;
 }
 
-function handleCardDelete(evt) {
-  const currentCard = evt.target.closest(".card");
-  if (currentCard) {
-    currentCard.remove();
-  }
+function handleCardDelete(card) {
+  card.remove();
 }
 
 function handleCardLike(evt) {

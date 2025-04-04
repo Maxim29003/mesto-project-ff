@@ -1,11 +1,15 @@
-const popups = document.querySelectorAll(".popup");
+export function addPopupEventListeners(popup) {
+  const closeButton = popup.querySelector(".popup__close");
 
-export function getPopupForClassName(className) {
-  for (const popup of popups) {
-    if (popup.classList.contains(className)) {
-      return popup;
+  closeButton.addEventListener("click", (evt) => {
+    closePopup(popup);
+  });
+
+  popup.addEventListener("click", (evt) => {
+    if (!evt.target.classList.contains("popup__content")) {
+      closePopup(evt.target);
     }
-  }
+  });
 }
 
 export function openPopup(popup) {
@@ -13,11 +17,12 @@ export function openPopup(popup) {
   document.addEventListener("keydown", handleEscapeKey);
 }
 
-export function closePopup() {
-  popups.forEach((popup) => {
-    popup.classList.remove("popup_is-opened");
-  });
-  document.removeEventListener("keydown", handleEscapeKey);
+export function closePopup(popup) {
+  const openPopup = popup || document.querySelector(".popup_is-opened");
+  if (openPopup) {
+    openPopup.classList.remove("popup_is-opened");
+    document.removeEventListener("keydown", handleEscapeKey);
+  }
 }
 
 function handleEscapeKey(evt) {
