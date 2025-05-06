@@ -5,8 +5,9 @@ const cardTemplate = document.querySelector("#card-template");
 function createCard(
   card,
   isDeletable,
+  isLiked,
   handleCardDelete,
-  handleImagePopup
+  handleImagePopup,
 ) {
   const newCard = cardTemplate.content
     .querySelector(".places__item.card")
@@ -30,6 +31,10 @@ function createCard(
     handleCardLike(evt, card._id, cardLikeCount)
   );
 
+  if (isLiked) {
+    cardLikeButton.classList.add("card__like-button_is-active");
+  }
+  
   const cardImage = newCard.querySelector(".card__image");
   cardImage.src = card.link;
   cardImage.alt = card.name;

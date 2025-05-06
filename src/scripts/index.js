@@ -54,9 +54,9 @@ const validationConfig = {
 
 placesList.textContent = "";
 
-function addCardToList(card, isDeletable = true) {
+function addCardToList(card, isDeletable = true, isLiked = false) {
   placesList.prepend(
-    createCard(card, isDeletable, handleCardDelete, handleImagePopup)
+    createCard(card, isDeletable, isLiked, handleCardDelete, handleImagePopup)
   );
 }
 
@@ -206,7 +206,7 @@ Promise.all([getUser(), getСards()])
   .then(([user, cardsArray]) => {
     updateProfile(user);
     cardsArray.forEach((card) =>
-      addCardToList(card, isUserCardOwner(user, card))
+      addCardToList(card, isUserCardOwner(user, card), card.likes.some(like => like._id === user._id))
     );
   })
   .catch((err) => {
