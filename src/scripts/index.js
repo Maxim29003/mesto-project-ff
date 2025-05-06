@@ -136,6 +136,7 @@ editProfileForm.addEventListener("submit", function (event) {
 });
 
 addButton.addEventListener("click", () => {
+  newPlaceForm.reset()
   clearValidation(newPlaceForm, validationConfig);
   openPopup(newCardPopup);
 });
