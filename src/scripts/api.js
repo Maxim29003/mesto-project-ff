@@ -6,14 +6,18 @@ const config = {
   },
 };
 
-export const getUser = async () => {
-  const res = await fetch(`${config.baseUrl}/users/me`, {
-    headers: config.headers,
-  });
+const handleResponse = async (res) => {
   if (res.ok) {
     return res.json();
   }
   return await Promise.reject(`Ошибка: ${res.status}`);
+}
+
+export const getUser = async () => {
+  const res = await fetch(`${config.baseUrl}/users/me`, {
+    headers: config.headers,
+  });
+  return handleResponse(res)
 };
 
 export const updateUser = async (newUser) => {
@@ -22,20 +26,14 @@ export const updateUser = async (newUser) => {
     headers: config.headers,
     body: JSON.stringify(newUser),
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(res)
 };
 
 export const getСards = async () => {
   const res = await fetch(`${config.baseUrl}/cards`, {
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(res)
 };
 
 export const addCard = async (newCard) => {
@@ -44,10 +42,7 @@ export const addCard = async (newCard) => {
     headers: config.headers,
     body: JSON.stringify(newCard),
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(res)
 };
 
 export const deleteCard = async (id) => {
@@ -55,10 +50,7 @@ export const deleteCard = async (id) => {
     method: "DELETE",
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(res)
 };
 
 export const deleteLike = async (id) => {
@@ -66,10 +58,7 @@ export const deleteLike = async (id) => {
     method: "DELETE",
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(res)
 };
 
 export const setLike = async (id) => {
@@ -77,10 +66,7 @@ export const setLike = async (id) => {
     method: "PUT",
     headers: config.headers,
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(res)
 };
 
 export const updateAvatar = async (avatarUlr) => {
@@ -89,8 +75,5 @@ export const updateAvatar = async (avatarUlr) => {
     headers: config.headers,
     body: JSON.stringify(avatarUlr),
   });
-  if (res.ok) {
-    return res.json();
-  }
-  return await Promise.reject(`Ошибка: ${res.status}`);
+  return handleResponse(res)
 };

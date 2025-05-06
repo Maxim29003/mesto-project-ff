@@ -1,5 +1,5 @@
 import "../pages/index.css";
-import { createCard } from "../components/card";
+import { createCard, handleCardLike} from "../components/card";
 import {
   addPopupEventListeners,
   openPopup,
@@ -54,9 +54,9 @@ const validationConfig = {
 
 placesList.textContent = "";
 
-function addCardToList(card, isDeletable = true, isLiked = false) {
+function addCardToList(card, userId) {
   placesList.prepend(
-    createCard(card, isDeletable, isLiked, handleCardDelete, handleImagePopup)
+    createCard(card, userId, handleCardDelete, handleImagePopup, handleCardLike)
   );
 }
 
@@ -151,7 +151,7 @@ newPlaceForm.addEventListener("submit", function (event) {
 
   addCard({ name: placeNameInput.value, link: linkInput.value })
     .then((newCard) => {
-      addCardToList(newCard);
+      addCardToList(newCard, newCard.owner._id);
       closePopup(newCardPopup);
     })
     .catch((err) => {
@@ -199,15 +199,11 @@ popups.forEach((popup) => {
   addPopupEventListeners(popup);
 });
 
-function isUserCardOwner(user, card) {
-  return user._id === card.owner._id;
-}
-
 Promise.all([getUser(), getСards()])
   .then(([user, cardsArray]) => {
     updateProfile(user);
     cardsArray.forEach((card) =>
-      addCardToList(card, isUserCardOwner(user, card), card.likes.some(like => like._id === user._id))
+      addCardToList(card, user._id)
     );
   })
   .catch((err) => {
